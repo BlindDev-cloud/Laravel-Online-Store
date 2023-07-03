@@ -15,6 +15,11 @@ class Role extends Model
         'name'
     ];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function scopeAdmin($query)
     {
         return $this->getRole($query, 'admin');
