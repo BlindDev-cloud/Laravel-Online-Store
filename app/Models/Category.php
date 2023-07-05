@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -17,5 +19,10 @@ class Category extends Model
     public function image()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function scopeIDs($query)
+    {
+        return $query->select('id');
     }
 }
