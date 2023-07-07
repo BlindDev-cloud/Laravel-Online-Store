@@ -8,7 +8,7 @@ enum OrderStatusesEnum: string
 {
     use EnumCaseFinderTrait;
 
-    case InProcess = 'InProcess';
+    case InProcess = 'In Process';
     case Paid = 'Paid';
     case Completed = 'Completed';
     case Canceled = 'Canceled';

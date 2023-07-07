@@ -18,18 +18,15 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $categoriesIDs = Category::iDs()->get()->pluck('id');
-
         return [
-            'category_id' => fake()->randomElement($categoriesIDs),
-            'title' => fake()->unique()->sentence(3, true),
-            'description' => fake()->text,
-            'short_description' => fake()->sentence(10, true),
-            'SKU' => Str::random(35),
-            'price' => round(fake()->randomFloat(2, 1, 100000), 2),
-            'discount' => rand(0, 1) ? fake()->numberBetween(5, 50) : null,
+            'title' => fake()->unique()->words(rand(1, 2), true),
+            'description' => fake()->paragraph(rand(1, 5)),
+            'short_description' => fake()->words(rand(3, 5), true),
+            'SKU' => fake()->unique()->ean8(),
+            'price' => fake()->randomFloat(2, 10, 100000),
+            'discount' => rand(0, 90),
             'in_stock' => fake()->numberBetween(0, 300),
-            'thumbnail' => fake()->imageUrl(646,640)
+            'thumbnail' => fake()->imageUrl(646,640, 'cars', true)
 
 
         ];

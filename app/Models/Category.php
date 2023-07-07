@@ -20,9 +20,4 @@ class Category extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-
-    public function scopeIDs($query)
-    {
-        return $query->select('id');
-    }
 }
