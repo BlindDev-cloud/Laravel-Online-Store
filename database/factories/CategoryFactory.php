@@ -9,19 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategoryFactory extends Factory
 {
-    protected static array $categories = [
-        'Refrigerators',
-        'Washing Machines',
-        'Ovens',
-        'Vacuum Cleaners',
-        'Dishwashers',
-        'Microwaves',
-        'Air Conditioners',
-        'Blenders',
-        'Toasters',
-        'Coffee Makers',
-    ];
-
     /**
      * Define the model's default state.
      *
@@ -30,13 +17,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->randomElement(self::$categories),
-            'description' => fake()->text()
+            'name' => fake()->unique()->words(rand(1, 2), true),
+            'description' => fake()->realText(rand(150, 400))
         ];
-    }
-
-    public static function categoriesAmount()
-    {
-        return count(self::$categories);
     }
 }
