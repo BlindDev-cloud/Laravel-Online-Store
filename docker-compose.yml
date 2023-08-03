@@ -22,11 +22,11 @@ services:
         networks:
             - app-network
 
-    app:
-        container_name: app
+    laravel:
+        container_name: laravel
         build:
             context: .
-            dockerfile: docker/app/Dockerfile
+            dockerfile: docker/laravel/Dockerfile
         restart: unless-stopped
         volumes:
             - .:/var/www/html
@@ -38,6 +38,22 @@ services:
             - app-network
         depends_on:
             - mysql
+
+    react:
+        container_name: react
+        build:
+            context: .
+            dockerfile: docker/react/Dockerfile
+#        restart: unless-stopped
+        volumes:
+            - ./react:/app
+        ports:
+            - "5173:5173"
+            - "3000:3000"
+        networks:
+            - app-network
+        depends_on:
+            - laravel
 
     nginx:
         container_name: nginx
@@ -51,4 +67,4 @@ services:
         networks:
             - app-network
         depends_on:
-            - app
+            - react

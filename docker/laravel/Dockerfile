@@ -47,16 +47,16 @@ COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
 
 # Copy php configs
-COPY /docker/app/php.ini /usr/local/etc/php/
+COPY /docker/laravel/php.ini /usr/local/etc/php/
 
 # Copy xdebug configs
-COPY /docker/app/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY /docker/laravel/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Open port
 EXPOSE 9000
 
 # Copy entrypoint script
-COPY /docker/app/docker-entrypoint.sh /usr/local/bin/
+COPY /docker/laravel/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set entrypoint
