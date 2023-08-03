@@ -4,18 +4,13 @@ FROM php:8.1-fpm
 RUN apt-get update && apt-get install -y \
      git \
      curl \
-     build-essential \
      libpng-dev \
      libjpeg62-turbo-dev \
      libfreetype6-dev \
      libonig-dev \
-     libzip-dev \
      libxml2-dev \
-     locales \
      zip \
-     unzip \
-     jpegoptim optipng pngquant gifsicle \
-     vim
+     unzip
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -24,7 +19,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install \
     pdo_mysql \
     mbstring \
-    zip \
     exif \
     pcntl \
     bcmath \
@@ -42,9 +36,6 @@ WORKDIR /var/www/html
 
 # Copy composer files
 COPY composer.json composer.lock ./
-
-# Install project dependencies
-RUN composer install --no-scripts --no-autoloader
 
 # Copy php configs
 COPY /docker/laravel/php.ini /usr/local/etc/php/

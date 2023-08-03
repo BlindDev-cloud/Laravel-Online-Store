@@ -39,22 +39,6 @@ services:
         depends_on:
             - mysql
 
-    react:
-        container_name: react
-        build:
-            context: .
-            dockerfile: docker/react/Dockerfile
-#        restart: unless-stopped
-        volumes:
-            - ./react:/app
-        ports:
-            - "5173:5173"
-            - "3000:3000"
-        networks:
-            - app-network
-        depends_on:
-            - laravel
-
     nginx:
         container_name: nginx
         image: nginx:latest
@@ -67,4 +51,20 @@ services:
         networks:
             - app-network
         depends_on:
-            - react
+            - laravel
+
+    react:
+        container_name: react
+        build:
+            context: .
+            dockerfile: docker/react/Dockerfile
+        restart: unless-stopped
+        volumes:
+            - ./react:/app
+        ports:
+            - "5173:5173"
+            - "3000:3000"
+        networks:
+            - app-network
+        depends_on:
+            - nginx
