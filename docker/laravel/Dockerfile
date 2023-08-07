@@ -37,9 +37,6 @@ WORKDIR /var/www/html
 # Copy the project to the container
 COPY . .
 
-# Set up projcet's permission
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
 # Copy php configs
 COPY /docker/laravel/php.ini /usr/local/etc/php/
 COPY /docker/laravel/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -47,8 +44,9 @@ COPY /docker/laravel/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.
 # Install project dependences
 RUN composer install
 
-# Generate incryption key
-RUN php artisan key:generate
+# Set permissions for the Laravel application files
+RUN chown -R www-data:www-data /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 
 # Open port
 EXPOSE 9000
