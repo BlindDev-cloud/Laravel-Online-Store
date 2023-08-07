@@ -6,5 +6,6 @@ This is an online store that uses React and Laravel frameworks for building UI a
 2. cd react/; npm install; cd ..
 3. composer install
 4. docker compose up --build -d
-5. docker exec -it laravel php artisan migrate --seed
+5. docker exec -it laravel php artisan key:generate
+6. docker exec -it laravel php artisan migrate --seed
 
