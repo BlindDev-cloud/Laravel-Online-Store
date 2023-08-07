@@ -34,21 +34,24 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Define workdir
 WORKDIR /var/www/html
 
-# Copy composer files
-COPY composer.json composer.lock ./
+# Copy the project to the container
+COPY . .
+
+# Set up projcet's permission
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copy php configs
 COPY /docker/laravel/php.ini /usr/local/etc/php/
-
-# Copy xdebug configs
 COPY /docker/laravel/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Install project dependences
+RUN composer install
+
+# Generate incryption key
+RUN php artisan key:generate
 
 # Open port
 EXPOSE 9000
 
-# Copy entrypoint script
-COPY /docker/laravel/docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Set entrypoint
-ENTRYPOINT ["docker-entrypoint.sh"]
+# Run php-fpm
+CMD ["php-fpm"]

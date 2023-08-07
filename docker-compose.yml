@@ -1,7 +1,9 @@
 version: '3.8'
 
 networks:
-    app-network:
+    backend-network:
+        driver: bridge
+    frontend-network:
         driver: bridge
 
 services:
@@ -18,9 +20,9 @@ services:
         ports:
             - '127.0.0.1:${DB_PORT}:3306'
         volumes:
-            - ./docker/mysql:/var/lib/mysql
+            - db-volume:/var/lib/mysql
         networks:
-            - app-network
+            - backend-network
 
     laravel:
         container_name: laravel
@@ -35,7 +37,7 @@ services:
         extra_hosts:
             - host.docker.internal:host-gateway
         networks:
-            - app-network
+            - backend-network
         depends_on:
             - mysql
 
@@ -49,7 +51,7 @@ services:
         volumes:
             - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
         networks:
-            - app-network
+            - backend-network
         depends_on:
             - laravel
 
@@ -63,8 +65,10 @@ services:
             - ./react:/app
         ports:
             - "5173:5173"
-            - "3000:3000"
         networks:
-            - app-network
-        depends_on:
-            - nginx
+            - frontend-network
+
+volumes:
+    db-volume:
+        driver: local
+
