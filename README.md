@@ -1,8 +1,10 @@
 # Laravel-Online-Store
 ## Description:
-This is a simple online store project for my diploma
-## Project building:
+This is an online store that uses React and Laravel frameworks for building UI and backend APIs.
+## Build instruction:
 1. cp .env.example .env
-2. docker compose up --build -d
-3. docker compose exec -it app bash
-	1) php artisan migrate
+2. cd react/; npm install; cd ..
+3. composer install
+4. docker compose up --build -d
+5. docker exec -it laravel php artisan migrate --seed
+
