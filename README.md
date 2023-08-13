@@ -15,6 +15,8 @@
 ## Build instruction
 <p>Execute local-build.sh or run these commands manually:</p>
 <ol>
+<li>chmod -R 777 bootstrap/cache</li>
+<li>chmod -R 777 storage</li>
 <li>cp .env.example .env</li>
 <li>cd react/; npm install; cd ..</li>
 <li>composer install</li>

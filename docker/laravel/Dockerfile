@@ -44,10 +44,6 @@ COPY /docker/laravel/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.
 # Install project dependences
 RUN composer install
 
-# Set permissions for the Laravel application files
-RUN chown -R www-data:www-data /var/www/html/storage
-RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
-
 # Open port
 EXPOSE 9000
 

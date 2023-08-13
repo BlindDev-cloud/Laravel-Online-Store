@@ -1,4 +1,6 @@
 #!/bin/bash
+chmod -R 777 bootstrap/cache
+chmod -R 777 storage
 cp .env.example .env
 cd react/; npm install; cd ..
 composer install
