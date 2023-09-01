@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -13,8 +15,6 @@ class AuthController extends Controller
     public function register(RegisterRequest $request) {
         $fields = $request->validated();
 
-        $salt = Str::random();
-        $fields['password'] = \hash('sha256', $fields['password'] . $salt);
         $fields['role_id'] = Role::customer()->first()->id;
 
         $user = User::create($fields);
@@ -29,9 +29,36 @@ class AuthController extends Controller
         return response($response);
     }
 
-    public function login(Request $request) {
+    public function login(LoginRequest $request)
+    {
+        $fields = $request->validated();
+
+        // Trying to get user
+        $user = User::where('email', $fields['email'])->first();
+
+        // Check user and his password
+        if(!$user || !Hash::check($fields['password'], $user->password)){
+            return response([
+                'message' => 'Incorrect email or password'
+            ], 401);
+        }
+
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response);
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'Logged out'
+        ];
     }
 }

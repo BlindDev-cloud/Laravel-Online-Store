@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -22,7 +23,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => ['required', 'string', 'max:255', 'email'],
+            'password' => ['required', 'string', new Password()]
         ];
     }
 }
