@@ -26,7 +26,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return response($response);
+        return response(json_encode($response), 201);
     }
 
     public function login(LoginRequest $request)
@@ -38,9 +38,9 @@ class AuthController extends Controller
 
         // Check user and his password
         if(!$user || !Hash::check($fields['password'], $user->password)){
-            return response([
+            return response(json_encode([
                 'message' => 'Incorrect email or password'
-            ], 401);
+            ]), 401);
         }
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -50,15 +50,17 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return response($response);
+        return response(json_encode($response));
     }
 
     public function logout(Request $request)
     {
         auth()->user()->tokens()->delete();
 
-        return [
+        $response = [
             'message' => 'Logged out'
         ];
+
+        return response(json_encode($response));
     }
 }
