@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         if(is_null(User::where('email', 'admin@admin.com')->first())){
-            User::factory()->admin()->withEmail('admin@admin.com')->withPassword('admin')->create();
+            User::factory()->admin()->withEmail('admin@admin.com')->withPassword('Mysecret1234$')->create();
         }
         User::factory(10)->create();
     }
