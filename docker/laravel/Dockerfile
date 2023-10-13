@@ -34,20 +34,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Define workdir
 WORKDIR /var/www/html
 
-# Copy the project to the container
-COPY . .
-
-# Copy php configs
-COPY ./docker/laravel/php.ini /usr/local/etc/php/
-COPY ./docker/laravel/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# Change permitions
-RUN chmod -R 777 ./bootstrap/cache
-RUN chmod -R 777 ./storage
-
-# Install project dependences
-RUN composer install
-
 # Open port
 EXPOSE 9000
 
